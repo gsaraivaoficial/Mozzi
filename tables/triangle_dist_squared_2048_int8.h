@@ -6,7 +6,7 @@
 #else
  #include "WProgram.h"
 #endif
-#include <avr/pgmspace.h>
+#include "mozzi_pgmspace.h"
 
 /* triangle wave with distortion from Audacity
 */
@@ -14,7 +14,7 @@
 #define TRIANGLE_DIST_SQUARED_2048_NUM_CELLS 2048
 #define TRIANGLE_DIST_SQUARED_2048_SAMPLERATE 2048
 
-const int8_t __attribute__((section(".progmem.data"))) TRIANGLE_DIST_SQUARED_2048_DATA []  =
+CONSTTABLE_STORAGE(int8_t) TRIANGLE_DIST_SQUARED_2048_DATA []  =
         {
                 16, 16, 16, 16, 15, 16,
                 16, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 14, 15,

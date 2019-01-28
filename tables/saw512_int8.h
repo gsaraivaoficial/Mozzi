@@ -6,12 +6,12 @@
 #else
  #include "WProgram.h"
 #endif
-#include <avr/pgmspace.h>
+#include "mozzi_pgmspace.h"
 
 #define SAW512_NUM_CELLS 512
 #define SAW512_SAMPLERATE 512
 
-const int8_t __attribute__((section(".progmem.data"))) SAW512_DATA []  =
+CONSTTABLE_STORAGE(int8_t) SAW512_DATA []  =
         {
                 -128, -128, -127, -127, -126, -126, -126,
                 -125, -125, -124, -124, -123, -123, -122, -121, -121, -120, -120, -119, -119,

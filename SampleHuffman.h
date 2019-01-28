@@ -11,6 +11,8 @@
 #ifndef SAMPLEHUFFMAN_H
 #define SAMPLEHUFFMAN_H
 
+#include "mozzi_pgmspace.h"
+
 /** A sample player for samples encoded with Huffman compression.
 
 This class and the audio2huff.py script are adapted from "audioout",
@@ -43,8 +45,6 @@ One is "SOUNDDATA" which must fit into Flash RAM (available in total: 32k for AT
 The other is "HUFFMAN" which must also fit into Flash RAM
 
 */
-
-#include <util/atomic.h>
 
 class SampleHuffman
 {
@@ -106,13 +106,9 @@ public:
 	inline
 	void start()
 	{
-		// atomic because start() can be called on a sample in the control interrupt
-		ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-		{
-			current = 0;
-			datapos = 0;
-			bt = 0;
-		}
+		current = 0;
+		datapos = 0;
+		bt = 0;
 	}
 	
 private:
@@ -130,7 +126,7 @@ private:
 	{
 		const uint8_t b = datapos&7;
 		//static uint8_t bt;
-		if(!b) bt = pgm_read_byte(sounddata+((uint32_t)datapos>>3));
+		if(!b) bt = FLASH_OR_RAM_READ<const uint8_t>(sounddata+((uint32_t)datapos>>3));
 		// extract the indexed bit
 		return ((uint8_t)bt>>(7-b))&1;
 	}
@@ -143,13 +139,13 @@ private:
 		int16_t const * huffcode = huffman;
 		do {
 			if(getbit()) {
-				const int16_t offs = pgm_read_word(huffcode);
+				const int16_t offs = FLASH_OR_RAM_READ<const int16_t>(huffcode);
 				huffcode += offs?offs+1:2;
 			}
 			datapos++;
 		}
-		while(pgm_read_word(huffcode++));
-		return pgm_read_word(huffcode);
+		while(FLASH_OR_RAM_READ<const int16_t>(huffcode++));
+		return FLASH_OR_RAM_READ<const int16_t>(huffcode);
 	}
 
 

@@ -17,7 +17,6 @@
 #else
  #include "WProgram.h"
 #endif
-//#include <util/atomic.h>
 #include "Line.h"
 #include "mozzi_fixmath.h"
 
@@ -118,6 +117,7 @@ public:
 		target4.phase_type = LINE4;
 		idle.phase_type = IDLE;
 		target4.level = 0;
+		current_phase = &idle;
 	}
 
 

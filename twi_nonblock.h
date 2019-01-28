@@ -4,16 +4,15 @@
  * Copyright 2012 Marije Baalman.
  *
  */
- 
+
 #ifndef TWI_NONBLOCK_H_
 #define TWI_NONBLOCK_H_
 
+#include <hardware_defines.h>
 // Added by TB2014 for Teensy 3 port
-#if !(defined(__MK20DX128__) || defined(__MK20DX256__) || defined(TEENSYDUINO)  || defined(TEENSYDUINO)) // hide all code from Teensy 3.1
-
+#if IS_AVR() // this code is only for AVRs
 
 #include "Arduino.h"
-
 #include <compat/twi.h>
 
 #define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
